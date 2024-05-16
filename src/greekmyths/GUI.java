@@ -3,7 +3,6 @@ package greekmyths;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Toolkit;
-import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -13,7 +12,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
-import javax.swing.border.EtchedBorder;
 import javax.swing.event.ListSelectionEvent;
 
 public class GUI extends JFrame {
@@ -26,8 +24,9 @@ public class GUI extends JFrame {
     private JList classList;
     private JList propertyList;
 
-    private JLabel image = new JLabel();
-
+    private final JLabel imageClass = new JLabel();
+    private final JLabel imageProperty = new JLabel();
+    
     private final DefaultListModel listModel1 = new DefaultListModel();
     private final DefaultListModel listModel2 = new DefaultListModel();
     private final JTextArea classesArea = new JTextArea();
@@ -62,8 +61,8 @@ public class GUI extends JFrame {
     private JPanel classSearch() {
         JPanel panel = new JPanel();
         classes = controller.consultClasses();
-        for (int i = 0; i < classes.length; i++) {
-            listModel1.addElement((classes[i]).trim());
+        for (String classe : classes) {
+            listModel1.addElement((classe).trim());
         }
         classList = new JList(listModel1);
 
@@ -81,7 +80,6 @@ public class GUI extends JFrame {
         descriptionArea.setEditable(false);
         descriptionArea.setLineWrap(true);
         descriptionArea.setWrapStyleWord(true);
-        //image.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED));
 
         panel.setLayout(null);
 
@@ -89,7 +87,11 @@ public class GUI extends JFrame {
         label1.setFont(titleFont);
         label2.setFont(titleFont);
         label3.setFont(titleFont);
-
+        
+        classList.setFont(textFont);
+        propertiesArea.setFont(textFont);
+        descriptionArea.setFont(textFont);
+        
         // Bounds
         label1.setBounds(10, 10, 300, 20);
         label2.setBounds(10, 245, 300, 20);
@@ -99,7 +101,7 @@ public class GUI extends JFrame {
         sp2.setBounds(10, 265, 300, 150);
         sp3.setBounds(10, 450, 820, 110);
 
-        image.setBounds(330, 30, 500, 385);
+        imageClass.setBounds(330, 30, 500, 385);
 
         // Add
         panel.add(label1);
@@ -108,7 +110,7 @@ public class GUI extends JFrame {
         panel.add(sp1);
         panel.add(sp2);
         panel.add(sp3);
-        panel.add(this.image);
+        panel.add(this.imageClass);
 
         // Function
         classList.addListSelectionListener((e) -> classController(e));
@@ -133,6 +135,7 @@ public class GUI extends JFrame {
 
         // Config
         propertiesArea.setEditable(false);
+        classesArea.setEditable(false);
         panel.setLayout(null);
 
         // Font
@@ -141,17 +144,20 @@ public class GUI extends JFrame {
 
         // Bounds
         label1.setBounds(10, 10, 300, 20);
-        label2.setBounds(10, 245, 300, 20);
+        label2.setBounds(10, 270, 300, 20);
 
-        sp1.setBounds(10, 30, 650, 200);
-        sp2.setBounds(10, 265, 300, 150);
+        sp1.setBounds(10, 30, 700, 225);
+        sp2.setBounds(10, 290, 400, 200);
 
+        imageProperty.setBounds(500, 290, 200, 200);
+        
         // Add
         panel.add(label1);
         panel.add(label2);
         panel.add(sp1);
         panel.add(sp2);
-
+        panel.add(this.imageProperty);
+        
         // Function
         propertyList.addListSelectionListener((e) -> propertyController(e));
 
@@ -182,18 +188,35 @@ public class GUI extends JFrame {
         str = str.substring(1, str.length() - 1);
         descriptionArea.setText(str);
 
-        image.setIcon(new ImageIcon("resources/" + selectedValue + ".png"));
+        String imagePath = "resources/" + selectedValue + ".png";
+        ImageIcon imageClassIcon = new ImageIcon(imagePath);
+        imageClassIcon = resizeImageIcon(imageClassIcon, imageClass.getWidth(), imageClass.getHeight());
+        imageClass.setIcon(imageClassIcon);
     }
-
+    
     private void propertyController(ListSelectionEvent e) {
         String selectedValue = (String) propertyList.getSelectedValue();
         String t = "";
 
         String[] classes = controller.consultHasProperty(selectedValue);
-        for (int i = 0; i < classes.length; i++) {
-            t += classes[i].trim() + "\n";
+        for (String classe : classes) {
+            t += classe.trim() + "\n";
         }
 
-        classesArea.setText(t);         
+        classesArea.setText(t);    
+        
+        if (classes.length == 1) {
+            String imagePath = "resources/" + classes[0] + ".png";
+            System.out.println(imagePath);
+            ImageIcon imagePropertyIcon = new ImageIcon(imagePath);
+            imagePropertyIcon = resizeImageIcon(imagePropertyIcon, imageProperty.getWidth(), imageProperty.getHeight());
+            imageProperty.setIcon(imagePropertyIcon);
+        } else {
+            imageProperty.setIcon(null);
+        }
+    }
+    
+    private static ImageIcon resizeImageIcon(ImageIcon icon, int width, int height) {
+        return new ImageIcon(icon.getImage().getScaledInstance(width, height, java.awt.Image.SCALE_SMOOTH));
     }
 }

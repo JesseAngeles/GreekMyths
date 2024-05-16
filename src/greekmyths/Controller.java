@@ -1,16 +1,11 @@
 package greekmyths;
 
 import java.util.Map;
-import javax.swing.ImageIcon;
-import javax.swing.JList;
-import javax.swing.event.ListSelectionEvent;
 import org.jpl7.*;
 
 public class Controller {
 
     private Query swipl;
-    private String[] classes;
-    private String[] properties;
 
     public Controller() {
         loadKnowledge("engine.pl");
