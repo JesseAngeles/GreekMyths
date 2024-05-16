@@ -1,5 +1,4 @@
 % BASE DE CONOCIMIENTOS
-
 frame(mitologia_griega, subclass(top),
       properties([origen(grecia)]),
       description('La mitología griega es el conjunto de mitos y leyendas pertenecientes a la cultura de la Antigua Grecia, que tratan de sus dioses y héroes, la naturaleza del mundo, los orígenes y el significado de sus propios cultos y prácticas rituales.')).
@@ -54,8 +53,4 @@ frame(el_mito_del_caballo_de_troya, subclass(class_mito_moral),
 
 frame(el_mito_del_castigo_de_atlas, subclass(class_mito_fundacional),
       properties([simboliza(responsabilidad_sacrificio), origina(gravedad)]),
-      description('El mito del castigo de Atlas cuenta la historia de cómo el titán Atlas fue condenado por Zeus a cargar el peso del mundo sobre sus hombros por toda la eternidad como castigo por su participación en la guerra entre los dioses y los titanes. Atlas había liderado a los titanes en una rebelión contra los olímpicos, pero tras ser derrotados, Zeus decidió castigarlo de esta manera.')).
-
-frame(el_mito_de_apolo_y_dafne, subclass(class_mito_moral),
-      properties([simboliza(destino_amor), leccion(el_amor_verdadero_no_puede_ser_forzado)]),
-      description('El mito de Apolo y Dafne, de la mitología griega, narra la historia del dios Apolo, quien se enamoró perdidamente de la ninfa Dafne después de ser alcanzado por una flecha dorada de Eros. Sin embargo, Dafne fue alcanzada por una flecha de plomo, que la hizo rechazar el amor. Perseguida por Apolo, Dafne imploró a su padre, el dios del río Peneo, que la transformara para escapar de Apolo. Peneo la convirtió en un laurel, y desde entonces, Apolo adoptó el laurel como su árbol sagrado.')).
+      description('El mito del castigo de Atlas cuenta la historia de cómo el titán Atlas fue condenado por Zeus a cargar el peso del mundo sobre sus hombros por toda la eternidad como castigo por su participación en la guerra entre los dioses y los titanes. Atlas había liderado a los titanes en la batalla contra los dioses olímpicos, pero tras su derrota, recibió este castigo ejemplar que simboliza el peso de la responsabilidad y el sacrificio.')).

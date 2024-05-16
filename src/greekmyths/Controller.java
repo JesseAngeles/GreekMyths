@@ -13,7 +13,6 @@ public class Controller {
     private String[] properties;
 
     public Controller() {
-        System.out.println("Controller");
         loadKnowledge("engine.pl");
         loadKnowledge("knowledge.pl");
     }

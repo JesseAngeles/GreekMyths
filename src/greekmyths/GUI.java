@@ -78,6 +78,8 @@ public class GUI extends JFrame {
         // Config
         displayArea.setEditable(false);
         descriptionArea.setEditable(false);
+        descriptionArea.setLineWrap(true);
+        descriptionArea.setWrapStyleWord(true);
         //image.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED));
         
         panel.setLayout(null);
@@ -143,6 +145,7 @@ public class GUI extends JFrame {
         str = str.substring(1, str.length() - 1);
         descriptionArea.setText(str);
         
-        image.setIcon(new ImageIcon("resources/" + selectedValue + ".jpg"));
+        System.out.println(selectedValue);
+        image.setIcon(new ImageIcon("resources/" + selectedValue + ".png"));
     }
 }
