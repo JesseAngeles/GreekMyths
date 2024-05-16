@@ -77,8 +77,8 @@ public class Controller {
         return res;
     }
 
-    public String consultDescription(String clase) {
-        String query = "obtiene_descripcion(" + clase + ",L)";
+    public String consultDescription(String clas) {
+        String query = "obtiene_descripcion(" + clas + ",L)";
         String res = "";
         swipl = new Query(query);
         if (swipl.hasSolution()) {
@@ -88,4 +88,16 @@ public class Controller {
         return res;
     }
 
+    public String[] consultHasProperty(String property) {
+        String query = "tiene_propiedad(" + property + ",L)";
+        String[] res = null;
+        swipl = new Query(query);
+        if (swipl.hasSolution()) {
+            String answer = "";
+            Map solutions = swipl.nextSolution();
+            answer += solutions.get("L");
+            res = answer.substring(answer.indexOf("[") + 1, answer.indexOf("]")).split(",");
+        }
+        return res;
+    }
 }

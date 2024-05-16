@@ -22,15 +22,16 @@ public class GUI extends JFrame {
 
     private String[] classes;
     private String[] properties;
-    
+
     private JList classList;
     private JList propertyList;
-    
+
     private JLabel image = new JLabel();
 
     private final DefaultListModel listModel1 = new DefaultListModel();
     private final DefaultListModel listModel2 = new DefaultListModel();
-    private final JTextArea displayArea = new JTextArea();
+    private final JTextArea classesArea = new JTextArea();
+    private final JTextArea propertiesArea = new JTextArea();
     private final JTextArea descriptionArea = new JTextArea();
 
     private final Font titleFont = new Font("Times New Roman", Font.BOLD, 16);
@@ -65,23 +66,23 @@ public class GUI extends JFrame {
             listModel1.addElement((classes[i]).trim());
         }
         classList = new JList(listModel1);
-        
+
         // Init components
         JLabel label1 = new JLabel("Clases");
         JLabel label2 = new JLabel("Properties");
         JLabel label3 = new JLabel("Description");
 
         JScrollPane sp1 = new JScrollPane(classList);
-        JScrollPane sp2 = new JScrollPane(displayArea);
+        JScrollPane sp2 = new JScrollPane(propertiesArea);
         JScrollPane sp3 = new JScrollPane(descriptionArea);
 
         // Config
-        displayArea.setEditable(false);
+        propertiesArea.setEditable(false);
         descriptionArea.setEditable(false);
         descriptionArea.setLineWrap(true);
         descriptionArea.setWrapStyleWord(true);
         //image.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED));
-        
+
         panel.setLayout(null);
 
         // Font
@@ -117,11 +118,47 @@ public class GUI extends JFrame {
 
     private JPanel propertySearch() {
         JPanel panel = new JPanel();
+        properties = controller.consultAllProperties();
+        for (String property : properties) {
+            listModel2.addElement((property).trim());
+        }
+        propertyList = new JList(listModel2);
+
+        // Init components
+        JLabel label1 = new JLabel("Properties");
+        JLabel label2 = new JLabel("Classes");
+
+        JScrollPane sp1 = new JScrollPane(propertyList);
+        JScrollPane sp2 = new JScrollPane(classesArea);
+
+        // Config
+        propertiesArea.setEditable(false);
+        panel.setLayout(null);
+
+        // Font
+        label1.setFont(titleFont);
+        label2.setFont(titleFont);
+
+        // Bounds
+        label1.setBounds(10, 10, 300, 20);
+        label2.setBounds(10, 245, 300, 20);
+
+        sp1.setBounds(10, 30, 650, 200);
+        sp2.setBounds(10, 265, 300, 150);
+
+        // Add
+        panel.add(label1);
+        panel.add(label2);
+        panel.add(sp1);
+        panel.add(sp2);
+
+        // Function
+        propertyList.addListSelectionListener((e) -> propertyController(e));
 
         return panel;
     }
 
-    void classController(ListSelectionEvent e) {
+    private void classController(ListSelectionEvent e) {
         String selectedValue = (String) classList.getSelectedValue();
         String t = "";
 
@@ -139,13 +176,24 @@ public class GUI extends JFrame {
             t += propiedades[i].trim() + "\n";
         }
 
-        displayArea.setText(t);
+        propertiesArea.setText(t);
 
         String str = controller.consultDescription(selectedValue);
         str = str.substring(1, str.length() - 1);
         descriptionArea.setText(str);
-        
-        System.out.println(selectedValue);
+
         image.setIcon(new ImageIcon("resources/" + selectedValue + ".png"));
+    }
+
+    private void propertyController(ListSelectionEvent e) {
+        String selectedValue = (String) propertyList.getSelectedValue();
+        String t = "";
+
+        String[] classes = controller.consultHasProperty(selectedValue);
+        for (int i = 0; i < classes.length; i++) {
+            t += classes[i].trim() + "\n";
+        }
+
+        classesArea.setText(t);         
     }
 }
